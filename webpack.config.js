@@ -1,15 +1,15 @@
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const merge = require('webpack-merge');
-const babel = require('./webpack/babel');
-const scss = require('./webpack/scss');
-const fonts = require('./webpack/fonts');
-const images = require('./webpack/images');
-const htmlPlagin = require('./webpack/html-plagin');
-const miniCssPlagin = require('./webpack/miniCss-plagin');
-const cleanPlagin = require('./webpack/clean-plagin');
-const jqueryPlagin = require('./webpack/providePlugin-jquery');
-const optimiseCssPlagin = require('./webpack/optimizeCss-plagin');
+const babelLoader = require('./webpack/babel-loader');
+const loadersCssPostcssSass = require('./webpack/loaders-css-postcss-sass');
+const fontsFileLoader = require('./webpack/fonts-file-loader');
+const imageWebpackLoader = require('./webpack/image-webpack-loader');
+const htmlWebpackPlugin = require('./webpack/html-webpack-plugin');
+const miniCssExtractPlugin = require('./webpack/mini-css-extract-plugin');
+const cleanWebpackPlugin = require('./webpack/clean-webpack-plugin');
+const webpackProvidePluginJquery = require('./webpack/webpackProvidePlugin-jquery');
+const optimizeCssAssetsPlugin = require('./webpack/optimize-css-assets-webpack-plugin');
 
 let config = merge([
     {
@@ -28,15 +28,15 @@ let config = merge([
         overlay: true,
     },
 },
-    babel(),
-    scss(),
-    fonts(),
-    images(),
-    htmlPlagin(),
-    miniCssPlagin(),
-    cleanPlagin(),
-    jqueryPlagin(),
-    optimiseCssPlagin()
+    babelLoader(),
+    loadersCssPostcssSass(),
+    fontsFileLoader(),
+    imageWebpackLoader(),
+    htmlWebpackPlugin(),
+    miniCssExtractPlugin(),
+    cleanWebpackPlugin(),
+    webpackProvidePluginJquery(),
+    optimizeCssAssetsPlugin()
 ]);
 
 module.exports = (env, options) => {

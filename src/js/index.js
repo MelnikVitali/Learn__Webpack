@@ -1,6 +1,7 @@
-import "./styles.scss";
-import "./bootstrap/bootstrap.js";
 import some from './some.js';
+import "../scss/styles.scss";
+import "../bootstrap/bootstrap.js";
+
 
 'use strict';
 

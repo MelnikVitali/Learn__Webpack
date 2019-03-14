@@ -1,33 +1,49 @@
-import {Module, Plagins} from "./module.and.plagins";
-
-const path = require("path");
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const merge = require('webpack-merge');
+const babel = require('./webpack/babel');
+const scss = require('./webpack/scss');
+const fonts = require('./webpack/fonts');
+const images = require('./webpack/images');
+const htmlPlagin = require('./webpack/html-plagin');
+const miniCssPlagin = require('./webpack/miniCss-plagin');
+const cleanPlagin = require('./webpack/clean-plagin');
+const jqueryPlagin = require('./webpack/providePlugin-jquery');
+const optimiseCssPlagin = require('./webpack/optimizeCss-plagin');
 
-
-let conf = {
-    mode: 'production',  //development
-    entry: './src/index.js',
+let config = merge([
+    {
+    entry: './src/js/index.js',
     output: {
-        filename: 'main.js',
+        filename: 'main.js',//'[name].js' 
         path: path.resolve(__dirname, 'dist')
     },
-    Module,
-    Plagins,
     optimization: {
         minimizer: [new UglifyJsPlugin()],
     },
-};
+    devServer: {
+        port: 9000,
+        compress: true,
+        stats: 'errors-only',
+        overlay: true,
+    },
+},
+    babel(),
+    scss(),
+    fonts(),
+    images(),
+    htmlPlagin(),
+    miniCssPlagin(),
+    cleanPlagin(),
+    jqueryPlagin(),
+    optimiseCssPlagin()
+]);
 
 module.exports = (env, options) => {
     let production = options.mode === 'production';
 
-    conf.devtool = production
-        ? 'source-map'
+    config.devtool = production
+        ? false//'source-map'
         : 'eval-sourcemap';
-    return conf;
+    return config;
 };
